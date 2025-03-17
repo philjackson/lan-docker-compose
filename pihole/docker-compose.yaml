@@ -1,5 +1,3 @@
-version: "3"
-
 # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
   pihole:
@@ -17,12 +15,12 @@ services:
       - "81:80/tcp"
     environment:
       TZ: 'Europe/London'
-      WEBPASSWORD: 'superdooperwhooper'
-      FTLCONF_webserver_api_password: 'superdooperwhooper'
+      WEBPASSWORD: ''
+      FTLCONF_webserver_api_password: ''
     # Volumes store your data between container upgrades
     volumes:
-      - '/home/pi/etc/pihole:/etc/pihole'
-      - '/home/pi/etc/dnsmasq.d:/etc/dnsmasq.d'    
+      - '/home/pi/pihole/etc/pihole:/etc/pihole'
+      - '/home/pi/pihole/etc/dnsmasq.d:/etc/dnsmasq.d'    
     #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
     cap_add:
       - NET_ADMIN # Recommended but not required (DHCP needs NET_ADMIN)      
