@@ -1,0 +1,12 @@
+services:
+  whatsupdocker:
+    image: getwud/wud
+    container_name: wud
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 3000:3000
+    environment:
+      - WUD_TRIGGER_MQTT_MOSQUITTO_URL=mqtt://192.168.1.100:1883
+      - WUD_TRIGGER_MQTT_MOSQUITTO_HASS_DISCOVERY=true
+      - WUD_TRIGGER_MQTT_MOSQUITTO_HASS_ENABLED=true
