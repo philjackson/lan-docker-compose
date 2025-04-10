@@ -1,5 +1,6 @@
 services:
   whatsupdocker:
+    restart: 'unless-stopped'
     image: getwud/wud
     container_name: wud
     volumes:
