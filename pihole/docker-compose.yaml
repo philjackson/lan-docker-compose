@@ -6,7 +6,6 @@ services:
     dns:
       - 127.0.0.1
       - 1.1.1.1
-
     # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
     ports:
       - "53:53/tcp"
@@ -17,11 +16,9 @@ services:
       TZ: 'Europe/London'
       WEBPASSWORD: ''
       FTLCONF_webserver_api_password: ''
-    # Volumes store your data between container upgrades
     volumes:
-      - '/home/pi/pihole/etc/pihole:/etc/pihole'
-      - '/home/pi/pihole/etc/dnsmasq.d:/etc/dnsmasq.d'    
-    #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+      - '/home/pi/apps/pihole/etc/pihole:/etc/pihole'
+      - '/home/pi/apps/pihole/etc/dnsmasq.d:/etc/dnsmasq.d'    
     cap_add:
       - NET_ADMIN # Recommended but not required (DHCP needs NET_ADMIN)      
     restart: unless-stopped

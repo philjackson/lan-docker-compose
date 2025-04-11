@@ -1,12 +1,12 @@
 name: Home Assistant
 services:
-    home-assistant:
-        ports:
-            - 0.0.0.0:80:8123/tcp
-        environment:
-            - TZ=Europe/London
-        container_name: home-assistant
-        volumes:
-            - /home/pi/.config/homeassistant/:/config
-        image: homeassistant/home-assistant
-        restart: unless-stopped
+  home-assistant:
+    ports:
+      - 0.0.0.0:80:8123/tcp
+    environment:
+      - TZ=Europe/London
+    container_name: home-assistant
+    volumes:
+      - /home/pi/apps/homeassistant/:/config
+    image: homeassistant/home-assistant
+    restart: unless-stopped
