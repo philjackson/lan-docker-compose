@@ -11,3 +11,13 @@ services:
       - WUD_TRIGGER_MQTT_MOSQUITTO_URL=mqtt://192.168.1.100:1883
       - WUD_TRIGGER_MQTT_MOSQUITTO_HASS_DISCOVERY=true
       - WUD_TRIGGER_MQTT_MOSQUITTO_HASS_ENABLED=true
+    networks:
+      - traefik-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.wud.loadbalancer.server.port=3000"
+      - "traefik.http.routers.wud.rule=Host(`wud.home.lan`)"
+
+networks:
+  traefik-net:
+    external: true
