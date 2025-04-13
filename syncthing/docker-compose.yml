@@ -8,6 +8,7 @@ services:
       - TZ=Europe/London
     volumes:
       - /home/pi/apps/syncthing/config:/config
+      - /home/pi/external/live/Music:/music
       - /home/pi/external/downloads:/downloads
     restart: unless-stopped
     network_mode: host
