@@ -1,6 +1,7 @@
 services:
   traefik:
     container_name: traefik
+    #image: traefik:v3.4.0-rc1
     image: traefik:v3.3
     command:
       - --api.insecure=true
@@ -8,6 +9,7 @@ services:
       - --providers.docker.exposedbydefault=false
       - --log.level=DEBUG
       - --entrypoints.web.address=:80
+      - --providers.docker.defaultRule=Host(`{{ normalize .ContainerName }}.home.lan`)
     ports:
       - "80:80"
       - "443:443"
@@ -19,7 +21,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.traefik.loadbalancer.server.port=8080"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.home.lan`)"
 
 networks:
   traefik-net:

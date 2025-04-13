@@ -29,7 +29,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.pihole.loadbalancer.server.port=80"
-      - "traefik.http.routers.pihole.rule=Host(`pihole.home.lan`)"
 
 networks:
   traefik-net:

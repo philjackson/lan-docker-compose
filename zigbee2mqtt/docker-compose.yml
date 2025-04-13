@@ -1,40 +1,39 @@
 services:
-    mqtt:
-        image: eclipse-mosquitto:latest
-        restart: unless-stopped
-        volumes:
-            - '/home/pi/apps/mosquitto:/mosquitto'
-        ports:
-            - '1883:1883'
-            - '9001:9001'
-        command: 'mosquitto -c /mosquitto-no-auth.conf'
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=Europe/London
-        networks:
-        - traefik-net
-        hostname: mosquitto
-    zigbee2mqtt:
-        container_name: zigbee2mqtt
-        restart: unless-stopped
-        image: koenkk/zigbee2mqtt
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=Europe/London
-        volumes:
-            - /home/pi/apps/zigbee2mqtt:/app/data
-            - /run/udev:/run/udev:ro
-        ports:
-            - 8080:8080
-        devices:
-            - /dev/ttyUSB0
-        networks:
-        - traefik-net
-        labels:
-        - "traefik.enable=true"
-        - "traefik.http.routers.zigbee2mqtt.rule=Host(`zigbee2mqtt.home.lan`)"
+  mqtt:
+    image: eclipse-mosquitto:latest
+    restart: unless-stopped
+    volumes:
+      - '/home/pi/apps/mosquitto:/mosquitto'
+    ports:
+      - '1883:1883'
+      - '9001:9001'
+    command: 'mosquitto -c /mosquitto-no-auth.conf'
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    networks:
+    - traefik-net
+    hostname: mosquitto
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    restart: unless-stopped
+    image: koenkk/zigbee2mqtt
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /home/pi/apps/zigbee2mqtt:/app/data
+      - /run/udev:/run/udev:ro
+    ports:
+      - 8080:8080
+    devices:
+      - /dev/ttyUSB0
+    networks:
+    - traefik-net
+    labels:
+    - "traefik.enable=true"
 
 networks:
   traefik-net:

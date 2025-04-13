@@ -2,7 +2,6 @@ services:
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
-    hostname: syncthing #optional
     environment:
       - PUID=1000
       - PGID=1000
@@ -10,10 +9,9 @@ services:
     volumes:
       - /home/pi/apps/syncthing/config:/config
       - /home/pi/external/downloads:/downloads
-#    ports:
-#      - 8384:8384
-#      - 22000:22000/tcp
-#      - 22000:22000/udp
-#      - 21027:21027/udp
     restart: unless-stopped
     network_mode: host
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.syncthing.loadbalancer.server.url=http://192.168.1.100:8384"
+      - "traefik.http.services.syncthing.loadbalancer.server.port=8384"
