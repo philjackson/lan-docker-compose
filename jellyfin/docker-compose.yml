@@ -1,6 +1,10 @@
 services:
   jellyfin:
     image: jellyfin/jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
     ports:
       - 8096:8096
     container_name: jellyfin

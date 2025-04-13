@@ -13,9 +13,11 @@ services:
       - "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
       - "81:80/tcp"
     environment:
-      TZ: 'Europe/London'
-      WEBPASSWORD: ''
-      FTLCONF_webserver_api_password: ''
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - WEBPASSWORD: ''
+      - FTLCONF_webserver_api_password: ''
     volumes:
       - '/home/pi/apps/pihole/etc/pihole:/etc/pihole'
       - '/home/pi/apps/pihole/etc/dnsmasq.d:/etc/dnsmasq.d'    

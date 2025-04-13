@@ -4,6 +4,8 @@ services:
     ports:
       - 0.0.0.0:80:8123/tcp
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=Europe/London
     container_name: home-assistant
     volumes:
