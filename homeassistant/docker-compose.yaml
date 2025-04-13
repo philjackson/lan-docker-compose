@@ -2,7 +2,7 @@ name: Home Assistant
 services:
   home-assistant:
     ports:
-      - 0.0.0.0:80:8123/tcp
+      - 0.0.0.0:8123:8123/tcp
     environment:
       - PUID=1000
       - PGID=1000
@@ -12,3 +12,13 @@ services:
       - /home/pi/apps/homeassistant/:/config
     image: homeassistant/home-assistant
     restart: unless-stopped
+    networks:
+      - traefik-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
+      - "traefik.http.routers.homeassistant.rule=Host(`homeassistant.home.lan`)"
+
+networks:
+  traefik-net:
+    external: true
