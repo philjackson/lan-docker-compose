@@ -12,6 +12,8 @@ services:
             - PUID=1000
             - PGID=1000
             - TZ=Europe/London
+        networks:
+        - traefik-net
     zigbee2mqtt:
         container_name: zigbee2mqtt
         restart: unless-stopped
@@ -27,3 +29,12 @@ services:
             - 8080:8080
         devices:
             - /dev/ttyUSB0
+        networks:
+        - traefik-net
+        labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.zigbee2mqtt.rule=Host(`zigbee2mqtt.home.lan`)"
+
+networks:
+  traefik-net:
+    external: true
