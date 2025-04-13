@@ -1,13 +1,13 @@
 services:
   traefik:
     container_name: traefik
-    #image: traefik:v3.4.0-rc1
-    image: traefik:v3.3
+    image: traefik:v3.4.0-rc1
+    #image: traefik:v3.3
     command:
       - --api.insecure=true
       - --providers.docker
       - --providers.docker.exposedbydefault=false
-      - --log.level=DEBUG
+        #- --log.level=DEBUG
       - --entrypoints.web.address=:80
       - --providers.docker.defaultRule=Host(`{{ normalize .ContainerName }}.home.lan`)
     ports:
