@@ -1,0 +1,21 @@
+---
+services:
+  jellyseerr:
+    image: ghcr.io/fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=info
+      - TZ=Europe/London
+    ports:
+      - 5055:5055
+    volumes:
+      - /home/pi/apps/jellyseerr:/app/config
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+    networks:
+      - traefik-net
+
+networks:
+  traefik-net:
+    external: true
