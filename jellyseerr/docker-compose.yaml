@@ -1,4 +1,3 @@
----
 services:
   jellyseerr:
     image: ghcr.io/fallenbagel/jellyseerr:latest
