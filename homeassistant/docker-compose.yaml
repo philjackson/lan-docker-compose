@@ -2,7 +2,7 @@ name: Home Assistant
 services:
   homeassistant:
     ports:
-      - 0.0.0.0:8123:8123/tcp
+      - 8123:8123/tcp
     environment:
       - PUID=1000
       - PGID=1000
