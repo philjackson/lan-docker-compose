@@ -5,16 +5,16 @@ services:
     volumes:
       - /home/pi/apps/spotizerr/creds:/app/creds
       - /home/pi/apps/spotizerr/config:/app/config
-      - /home/pi/external/live/Music:/app/downloads  # <-- Change this for your music library dir
-      - /home/pi/apps/spotizerr/logs:/app/logs  # <-- Volume for persistent logs
+      - /home/pi/external/live/Music:/app/downloads
+      - /home/pi/apps/spotizerr/logs:/app/logs
     ports:
       - 7171:7171
     image: cooldockerizer93/spotizerr:latest
     container_name: spotizerr
     restart: unless-stopped
     environment:
-      - PUID=1000  # Replace with your desired user ID  | Remove both if you want to run as root (not recommended, might result in unreadable files)
-      - PGID=1000  # Replace with your desired group ID | The user must have write permissions in the volume mapped to /app/downloads
+      - PUID=1000
+      - PGID=1000
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
       - REDIS_DB=${REDIS_DB}
