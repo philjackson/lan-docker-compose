@@ -15,6 +15,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
+      - TZ=Europe/London
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
       - REDIS_DB=${REDIS_DB}
@@ -38,6 +39,9 @@ services:
       - spotizerr-internal
     environment:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
     volumes:
       - /home/pi/apps/spotizerr/redis-data:/data
     command: redis-server --requirepass ${REDIS_PASSWORD} --appendonly yes
