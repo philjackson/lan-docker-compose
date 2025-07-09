@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-VERSION="v0.6.6"
-# ChangeNotes: notify_v2 bugfixes - clarify readme and error messages, better sourcing templates, tweaks.
+VERSION="v0.6.8"
+# ChangeNotes: bugfix unbound variable in notify_v2, new option "DisplaySourcedFiles" added to config
 Github="https://github.com/mag37/dockcheck"
 RawUrl="https://raw.githubusercontent.com/mag37/dockcheck/main/dockcheck.sh"
 
@@ -13,21 +13,19 @@ ScriptArgs=( "$@" )
 ScriptPath="$(readlink -f "$0")"
 ScriptWorkDir="$(dirname "$ScriptPath")"
 
-# Check if there's a new release of the script
-LatestRelease="$(curl --retry 3 --retry-delay 1 --retry-max-time 10 -s -r 0-50 "$RawUrl" | sed -n "/VERSION/s/VERSION=//p" | tr -d '"')"
-LatestChanges="$(curl --retry 3 --retry-delay 1 --retry-max-time 10 -s -r 0-200 "$RawUrl" | sed -n "/ChangeNotes/s/# ChangeNotes: //p")"
-
 # Source helper functions
-source_if_exists() {
-  if [[ -s "$1" ]]; then source "$1"; fi
-}
-
 source_if_exists_or_fail() {
-  [[ -s "$1" ]] && source "$1"
+  if [[ -s "$1" ]]; then
+    source "$1"
+    [[ "${DisplaySourcedFiles:-false}" == true ]] && echo " * sourced config: ${1}"
+    return 0
+  else
+    return 1
+  fi
 }
 
 # User customizable defaults
-source_if_exists_or_fail "${HOME}/.config/dockcheck.config" || source_if_exists "${ScriptWorkDir}/dockcheck.config"
+source_if_exists_or_fail "${HOME}/.config/dockcheck.config" || source_if_exists_or_fail "${ScriptWorkDir}/dockcheck.config"
 
 # Help Function
 Help() {
@@ -60,31 +58,32 @@ Help() {
 }
 
 # Initialise variables
-Timeout=${Timeout:=10}
-MaxAsync=${MaxAsync:=1}
-BarWidth=${BarWidth:=50}
-AutoMode=${AutoMode:=false}
-DontUpdate=${DontUpdate:=false}
-AutoPrune=${AutoPrune:=false}
-AutoSelfUpdate=${AutoSelfUpdate:=false}
-OnlyLabel=${OnlyLabel:=false}
-Notify=${Notify:=false}
-ForceRestartStacks=${ForceRestartStacks:=false}
-DRunUp=${DRunUp:=false}
-MonoMode=${MonoMode:=false}
-PrintReleaseURL=${PrintReleaseURL:=false}
-PrintMarkdownURL=${PrintMarkdownURL:=false}
-Stopped=${Stopped:=""}
+Timeout=${Timeout:-10}
+MaxAsync=${MaxAsync:-1}
+BarWidth=${BarWidth:-50}
+AutoMode=${AutoMode:-false}
+DontUpdate=${DontUpdate:-false}
+AutoPrune=${AutoPrune:-false}
+AutoSelfUpdate=${AutoSelfUpdate:-false}
+OnlyLabel=${OnlyLabel:-false}
+Notify=${Notify:-false}
+ForceRestartStacks=${ForceRestartStacks:-false}
+DRunUp=${DRunUp:-false}
+MonoMode=${MonoMode:-false}
+PrintReleaseURL=${PrintReleaseURL:-false}
+PrintMarkdownURL=${PrintMarkdownURL:-false}
+Stopped=${Stopped:-""}
 CollectorTextFileDirectory=${CollectorTextFileDirectory:-}
 Exclude=${Exclude:-}
 DaysOld=${DaysOld:-}
-OnlySpecific=${OnlySpecific:=false}
-SpecificContainer=${SpecificContainer:=""}
+OnlySpecific=${OnlySpecific:-false}
+SpecificContainer=${SpecificContainer:-""}
 Excludes=()
 GotUpdates=()
 NoUpdates=()
 GotErrors=()
 SelectedUpdates=()
+CurlArgs="--retry ${CurlRetryCount:=3} --retry-delay ${CurlRetryDelay:=1}  --connect-timeout ${CurlConnectTimeout:=5} -sf"
 regbin=""
 jqbin=""
 
@@ -124,6 +123,11 @@ shift "$((OPTIND-1))"
 
 # Set $1 to a variable for name filtering later
 SearchName="${1:-}"
+
+# Check if there's a new release of the script
+LatestSnippet="$(curl ${CurlArgs} -r 0-200 "$RawUrl" || printf "undefined")"
+LatestRelease="$(echo "${LatestSnippet}" | sed -n "/VERSION/s/VERSION=//p" | tr -d '"')"
+LatestChanges="$(echo "${LatestSnippet}" | sed -n "/ChangeNotes/s/# ChangeNotes: //p")"
 
 # Basic notify configuration check
 if [[ "${Notify}" == true ]] && [[ ! -s "${ScriptWorkDir}/notify.sh" ]] && [[ -z "${NOTIFY_CHANNELS:-}" ]]; then
@@ -166,7 +170,7 @@ exec_if_exists_or_fail() {
 self_update_curl() {
   cp "$ScriptPath" "$ScriptPath".bak
   if command -v curl &>/dev/null; then
-    curl --retry 3 --retry-delay 1 --retry-max-time 10 -L $RawUrl > "$ScriptPath"; chmod +x "$ScriptPath"
+    curl ${CurlArgs} -L $RawUrl > "$ScriptPath"; chmod +x "$ScriptPath" || { printf "ERROR: Failed to curl updated Dockcheck.sh script. Skipping update.\n"; return 1; }
     printf "\n%b---%b starting over with the updated version %b---%b\n" "$c_yellow" "$c_teal" "$c_yellow" "$c_reset"
     exec "$ScriptPath" "${ScriptArgs[@]}" # run the new script with old arguments
     exit 1 # Exit the old instance
@@ -270,7 +274,7 @@ binary_downloader() {
     *) printf "\n%bArchitecture not supported, exiting.%b\n" "$c_red" "$c_reset"; exit 1;;
   esac
   GetUrl="${BinaryUrl/TEMP/"$architecture"}"
-  if command -v curl &>/dev/null; then curl --retry 3 --retry-delay 1 --retry-max-time 10 -L "$GetUrl" > "$ScriptWorkDir/$BinaryName";
+  if command -v curl &>/dev/null; then curl ${CurlArgs} -L "$GetUrl" > "$ScriptWorkDir/$BinaryName" || { printf "ERROR: Failed to curl binary dependency. Rerun the script to retry.\n"; exit 1; }
   elif command -v wget &>/dev/null; then wget --waitretry=1 --timeout=15 -t 10 "$GetUrl" -O "$ScriptWorkDir/$BinaryName";
   else printf "\n%bcurl/wget not available - get %s manually from the repo link, exiting.%b" "$c_red" "$BinaryName" "$c_reset"; exit 1;
   fi
@@ -346,15 +350,19 @@ list_options() {
 }
 
 # Version check & initiate self update
-if [[ "$VERSION" != "$LatestRelease" ]]; then
-  printf "New version available! %b%s%b ⇒ %b%s%b \n Change Notes: %s \n" "$c_yellow" "$VERSION" "$c_reset" "$c_green" "$LatestRelease" "$c_reset" "$LatestChanges"
-  if [[ "$AutoMode" == false ]]; then
-    read -r -p "Would you like to update? y/[n]: " SelfUpdate
-    [[ "$SelfUpdate" =~ [yY] ]] && self_update
-  elif [[ "$AutoMode" == true ]] && [[ "$AutoSelfUpdate" == true ]]; then self_update;
-  else
-    [[ "$Notify" == true ]] && { exec_if_exists_or_fail dockcheck_notification "$VERSION" "$LatestRelease" "$LatestChanges" || printf "Could not source notification function.\n"; }
+if [[ "$LatestRelease" != "undefined" ]]; then
+  if [[ "$VERSION" != "$LatestRelease" ]]; then
+    printf "New version available! %b%s%b ⇒ %b%s%b \n Change Notes: %s \n" "$c_yellow" "$VERSION" "$c_reset" "$c_green" "$LatestRelease" "$c_reset" "$LatestChanges"
+    if [[ "$AutoMode" == false ]]; then
+      read -r -p "Would you like to update? y/[n]: " SelfUpdate
+      [[ "$SelfUpdate" =~ [yY] ]] && self_update
+    elif [[ "$AutoMode" == true ]] && [[ "$AutoSelfUpdate" == true ]]; then self_update;
+    else
+      [[ "$Notify" == true ]] && { exec_if_exists_or_fail dockcheck_notification "$VERSION" "$LatestRelease" "$LatestChanges" || printf "Could not source notification function.\n"; }
+    fi
   fi
+else
+  printf "ERROR: Failed to curl latest Dockcheck.sh release version.\n"
 fi
 
 # Version check for notify templates
@@ -420,7 +428,7 @@ check_image() {
 
   # Checking for errors while setting the variable
   if RegHash=$($t_out "$regbin" -v error image digest --list "$RepoUrl" 2>&1); then
-    if [[ "$LocalHash" = *"$RegHash"* ]]; then
+    if [[ "$LocalHash" == *"$RegHash"* ]]; then
       printf "%s\n" "NoUpdates $i"
     else
       if [[ -n "${DaysOld:-}" ]] && ! datecheck; then
@@ -568,7 +576,7 @@ if [[ -n "${GotUpdates:-}" ]]; then
       # cd to the compose-file directory to account for people who use relative volumes
       cd "$ContPath" || { printf "\n%bPath error - skipping%b %s" "$c_red" "$c_reset" "$i"; continue; }
       ## Reformatting path + multi compose
-      if [[ $ContConfigFile = '/'* ]]; then
+      if [[ $ContConfigFile == '/'* ]]; then
         CompleteConfs=$(for conf in ${ContConfigFile//,/ }; do printf -- "-f %s " "$conf"; done)
       else
         CompleteConfs=$(for conf in ${ContConfigFile//,/ }; do printf -- "-f %s/%s " "$ContPath" "$conf"; done)
