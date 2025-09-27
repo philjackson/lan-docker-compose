@@ -14,4 +14,4 @@ services:
     network_mode: host
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.syncthing.loadbalancer.server.url=http://192.168.1.100:8384"
+      - "traefik.http.services.syncthing.loadbalancer.server.url=http://192.168.0.100:8384"
