@@ -24,6 +24,8 @@ services:
       - VPN_TYPE=openvpn
       - OPENVPN_USER=15mRTY8VzxXnsnoo
       - OPENVPN_PASSWORD=IZrgGGWd3nW4mIcoaAMvY0lDYT4TiHIk
+      - UPDATER_PROTONVPN_USERNAME=15mRTY8VzxXnsnoo
+      - UPDATER_PROTONVPN_PASSWORD=IZrgGGWd3nW4mIcoaAMvY0lDYT4TiHIk
       - TZ=Europe/London
       - SERVER_COUNTRIES=Netherlands,Switzerland
       - LOG_LEVEL=debug
