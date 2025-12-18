@@ -1,0 +1,22 @@
+services:
+  deemix:
+    image: ghcr.io/bambanah/deemix:latest
+    container_name: Deemix
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    ports:
+      - "6595:6595"
+    volumes:
+      - /home/pi/external/live/Music:/downloads
+      - /home/pi/apps/deemix/config:/config
+    networks:
+      - traefik-net
+    labels:
+      - "traefik.enable=true"
+
+networks:
+  traefik-net:
+    external: true
