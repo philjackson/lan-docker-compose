@@ -54,7 +54,7 @@ services:
     labels:
       komodo.skip: # Prevent Komodo from stopping with StopAllContainers
       traefik.enable: true
-      traefik.http.services.komodo.loadbalancer.server.port: 9120
+      traefik.docker.network: traefik-net
     env_file: .env
     environment:
       KOMODO_DATABASE_ADDRESS: ferretdb:27017
