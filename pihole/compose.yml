@@ -18,6 +18,7 @@ services:
       TZ: Europe/London
       WEBPASSWORD: 'Tissue8-Envoy2-Acetone7-Puppy5-Juggling8'
       FTLCONF_webserver_api_password: 'Tissue8-Envoy2-Acetone7-Puppy5-Juggling8'
+      # Wildcard DNS: resolves all *.home.lan to the server so Traefik can route them
       FTLCONF_misc_dnsmasq_lines: 'address=/home.lan/192.168.0.100'
     volumes:
       - '/home/pi/apps/pihole/etc/pihole:/etc/pihole'
