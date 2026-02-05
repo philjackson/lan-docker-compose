@@ -112,6 +112,20 @@ networks:
     external: true
 ```
 
+After creating the compose file, add the service to `komodo-sync.toml` so Komodo picks it up:
+
+```toml
+[[stack]]
+name = "servicename"
+[stack.config]
+server_id = "Local"
+files_on_host = true
+run_directory = "/home/pi/docker-compose-files/servicename"
+file_paths = ["compose.yml"]
+```
+
+Then trigger a Resource Sync in the Komodo UI.
+
 ## Image Sources
 
 Preferred registries:

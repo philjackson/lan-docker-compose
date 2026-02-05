@@ -1,0 +1,75 @@
+## Komodo Resource Sync
+## Declares all stacks so Komodo can manage them via "files on host" mode.
+## Komodo's own stack is excluded (it manages itself).
+
+[[stack]]
+name = "deezmix"
+[stack.config]
+server_id = "Local"
+files_on_host = true
+run_directory = "/home/pi/docker-compose-files/deezmix"
+file_paths = ["compose.yml"]
+
+[[stack]]
+name = "gluetun-and-co"
+[stack.config]
+server_id = "Local"
+files_on_host = true
+run_directory = "/home/pi/docker-compose-files/gluetun-and-co"
+file_paths = ["compose.yml"]
+
+[[stack]]
+name = "homeassistant"
+[stack.config]
+server_id = "Local"
+files_on_host = true
+run_directory = "/home/pi/docker-compose-files/homeassistant"
+file_paths = ["compose.yml"]
+
+[[stack]]
+name = "jellyfin"
+[stack.config]
+server_id = "Local"
+files_on_host = true
+run_directory = "/home/pi/docker-compose-files/jellyfin"
+file_paths = ["compose.yml"]
+
+[[stack]]
+name = "jellyseerr"
+[stack.config]
+server_id = "Local"
+files_on_host = true
+run_directory = "/home/pi/docker-compose-files/jellyseerr"
+file_paths = ["compose.yml"]
+
+[[stack]]
+name = "pihole"
+[stack.config]
+server_id = "Local"
+files_on_host = true
+run_directory = "/home/pi/docker-compose-files/pihole"
+file_paths = ["compose.yml"]
+
+[[stack]]
+name = "syncthing"
+[stack.config]
+server_id = "Local"
+files_on_host = true
+run_directory = "/home/pi/docker-compose-files/syncthing"
+file_paths = ["compose.yml"]
+
+[[stack]]
+name = "traefik"
+[stack.config]
+server_id = "Local"
+files_on_host = true
+run_directory = "/home/pi/docker-compose-files/traefik"
+file_paths = ["compose.yml"]
+
+[[stack]]
+name = "zigbee2mqtt"
+[stack.config]
+server_id = "Local"
+files_on_host = true
+run_directory = "/home/pi/docker-compose-files/zigbee2mqtt"
+file_paths = ["compose.yml"]
