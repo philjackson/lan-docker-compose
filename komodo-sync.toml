@@ -12,7 +12,7 @@ file_paths = ["compose.yml"]
 
 [[stack]]
 name = "gluetun-and-co"
-tags = ["media"]
+tags = ["system", "media"]
 [stack.config]
 server = "Local"
 poll_for_updates = true
@@ -90,6 +90,18 @@ server = "Local"
 poll_for_updates = true
 files_on_host = true
 run_directory = "/home/pi/docker-compose-files/traefik"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
+name = "traefik-pihole-dns-sync"
+tags = ["system"]
+[stack.config]
+server = "Local"
+poll_for_updates = true
+files_on_host = true
+run_directory = "/home/pi/docker-compose-files/traefik-pihole-dns-sync"
 file_paths = ["compose.yml"]
 
 ##

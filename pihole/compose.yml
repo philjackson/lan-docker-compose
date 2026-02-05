@@ -16,8 +16,8 @@ services:
       PUID: 1000
       PGID: 1000
       TZ: Europe/London
-      WEBPASSWORD: ''
-      FTLCONF_webserver_api_password: ''
+      WEBPASSWORD: 'Tissue8-Envoy2-Acetone7-Puppy5-Juggling8'
+      FTLCONF_webserver_api_password: 'Tissue8-Envoy2-Acetone7-Puppy5-Juggling8'
     volumes:
       - '/home/pi/apps/pihole/etc/pihole:/etc/pihole'
       - '/home/pi/apps/pihole/etc/dnsmasq.d:/etc/dnsmasq.d'    
