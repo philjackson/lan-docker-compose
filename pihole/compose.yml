@@ -18,9 +18,10 @@ services:
       TZ: Europe/London
       WEBPASSWORD: 'Tissue8-Envoy2-Acetone7-Puppy5-Juggling8'
       FTLCONF_webserver_api_password: 'Tissue8-Envoy2-Acetone7-Puppy5-Juggling8'
+      FTLCONF_misc_dnsmasq_lines: 'address=/home.lan/192.168.0.100'
     volumes:
       - '/home/pi/apps/pihole/etc/pihole:/etc/pihole'
-      - '/home/pi/apps/pihole/etc/dnsmasq.d:/etc/dnsmasq.d'    
+      - '/home/pi/apps/pihole/etc/dnsmasq.d:/etc/dnsmasq.d'
     cap_add:
       - NET_ADMIN # Recommended but not required (DHCP needs NET_ADMIN)      
     restart: unless-stopped

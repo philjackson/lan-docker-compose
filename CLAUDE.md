@@ -38,6 +38,12 @@ restart: unless-stopped
 
 ## Networking
 
+**Server IP:** `192.168.0.100`
+
+### DNS
+
+All `*.home.lan` domains resolve to the server via a wildcard dnsmasq rule configured in Pi-hole (`FTLCONF_misc_dnsmasq_lines`). No per-service DNS records are needed — Traefik handles routing.
+
 ### Traefik Network
 
 Most services connect to the external `traefik-net` network:
