@@ -62,7 +62,7 @@ services:
       KOMODO_DATABASE_PASSWORD: ${KOMODO_DB_PASSWORD}
     volumes:
       - /home/pi/apps/komodo/backups:/backups
-      - /home/pi/docker-compose-files/komodo-sync.toml:/syncs/komodo-sync.toml:ro
+      - /home/pi/docker-compose-files:/syncs:ro
       ## Optionally mount a custom core.config.toml
       # - /path/to/core.config.toml:/config/config.toml
     ## Allows for systemd Periphery connection at 
