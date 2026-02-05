@@ -9,7 +9,7 @@ This repository contains docker compose configurations for a home server setup w
 ```
 /home/phil/pic/
 ├── [service-name]/
-│   ├── docker-compose.yml (or .yaml)
+│   ├── compose.yml
 │   └── .env (optional, for complex services)
 ├── dockcheck.sh (maintenance script)
 └── regctl (utility binary)
@@ -149,23 +149,10 @@ cap_add:
   - NET_ADMIN
 ```
 
-## Existing Services
+## Key Infrastructure Services
 
-| Service | Port | Notes |
-|---------|------|-------|
-| traefik | 80, 443, 8082 | Reverse proxy |
-| jellyfin | 8096 | Media server |
-| portainer | 9000 | Docker management |
-| pihole | 53, 81 | DNS + ad blocking |
-| zigbee2mqtt | 1883, 9001 | Zigbee bridge |
-| syncthing | 8384 | File sync (host network) |
-| jellyseerr | 5055 | Media requests |
-| homeassistant | 8123 | Home automation |
-| joplin | 22300 | Notes (with PostgreSQL) |
-| gluetun | - | VPN gateway |
-| qtorrent | 8080 | Torrents (via gluetun) |
-| radarr | 7878 | Movies (via gluetun) |
-| sonarr | 8989 | TV (via gluetun) |
-| prowlarr | 9696 | Indexers (via gluetun) |
-| deezmix | 7171 | Music downloads |
-| komodo | 9120 | Deployment manager |
+These services are referenced in the conventions above:
+
+- **traefik** (ports 80, 443, 8082) - Reverse proxy. Provides the `traefik-net` network and `home.lan` routing.
+- **gluetun** - VPN gateway. Services needing VPN use `network_mode: "service:gluetun"`.
+- **pihole** (ports 53, 81) - DNS server. Requires `NET_ADMIN` capability.
