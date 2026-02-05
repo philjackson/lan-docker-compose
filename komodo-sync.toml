@@ -1,75 +1,105 @@
-## Komodo Resource Sync
-## Declares all stacks so Komodo can manage them via "files on host" mode.
-## Komodo's own stack is excluded (it manages itself).
-
 [[stack]]
 name = "deezmix"
+tags = ["music", "media"]
 [stack.config]
-server_id = "Local"
+server = "Local"
+poll_for_updates = true
 files_on_host = true
 run_directory = "/home/pi/docker-compose-files/deezmix"
 file_paths = ["compose.yml"]
 
+##
+
 [[stack]]
 name = "gluetun-and-co"
+tags = ["media"]
 [stack.config]
-server_id = "Local"
+server = "Local"
+poll_for_updates = true
 files_on_host = true
 run_directory = "/home/pi/docker-compose-files/gluetun-and-co"
 file_paths = ["compose.yml"]
 
+##
+
 [[stack]]
 name = "homeassistant"
+tags = ["home"]
 [stack.config]
-server_id = "Local"
+server = "Local"
+poll_for_updates = true
 files_on_host = true
 run_directory = "/home/pi/docker-compose-files/homeassistant"
 file_paths = ["compose.yml"]
 
+##
+
 [[stack]]
 name = "jellyfin"
+tags = ["media"]
 [stack.config]
-server_id = "Local"
+server = "Local"
+poll_for_updates = true
 files_on_host = true
 run_directory = "/home/pi/docker-compose-files/jellyfin"
 file_paths = ["compose.yml"]
 
+##
+
 [[stack]]
 name = "jellyseerr"
+tags = ["media"]
 [stack.config]
-server_id = "Local"
+server = "Local"
+poll_for_updates = true
 files_on_host = true
 run_directory = "/home/pi/docker-compose-files/jellyseerr"
 file_paths = ["compose.yml"]
 
+##
+
 [[stack]]
 name = "pihole"
+tags = ["system"]
 [stack.config]
-server_id = "Local"
+server = "Local"
+poll_for_updates = true
 files_on_host = true
 run_directory = "/home/pi/docker-compose-files/pihole"
 file_paths = ["compose.yml"]
 
+##
+
 [[stack]]
 name = "syncthing"
+tags = ["system"]
 [stack.config]
-server_id = "Local"
+server = "Local"
+poll_for_updates = true
 files_on_host = true
 run_directory = "/home/pi/docker-compose-files/syncthing"
 file_paths = ["compose.yml"]
 
+##
+
 [[stack]]
 name = "traefik"
+tags = ["system"]
 [stack.config]
-server_id = "Local"
+server = "Local"
+poll_for_updates = true
 files_on_host = true
 run_directory = "/home/pi/docker-compose-files/traefik"
 file_paths = ["compose.yml"]
 
+##
+
 [[stack]]
 name = "zigbee2mqtt"
+tags = ["home"]
 [stack.config]
-server_id = "Local"
+server = "Local"
+poll_for_updates = true
 files_on_host = true
 run_directory = "/home/pi/docker-compose-files/zigbee2mqtt"
 file_paths = ["compose.yml"]
