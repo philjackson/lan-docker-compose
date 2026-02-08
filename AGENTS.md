@@ -44,6 +44,8 @@ restart: unless-stopped
 
 All `*.home.lan` domains resolve to the server via a wildcard dnsmasq rule configured in Pi-hole (`FTLCONF_misc_dnsmasq_lines`). No per-service DNS records are needed — Traefik handles routing.
 
+Pi-hole has a static IP of `172.30.0.53` on `traefik-net`. Containers that need to resolve `*.home.lan` from within Docker (e.g., uptime-kuma) should use this as their `dns:` setting, since the host LAN IP (`192.168.0.100`) is not reliably reachable from bridge networks.
+
 ### Traefik Network
 
 Most services connect to the external `traefik-net` network:
