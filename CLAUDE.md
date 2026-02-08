@@ -2,7 +2,7 @@
 
 This repository contains docker compose configurations for a home server setup with Traefik as a reverse proxy.
 
-**Note:** These files are accessed via network share. Docker commands cannot be run directly here - they must be run on the server itself.
+**Note:** This repository lives on the server itself. Docker commands (logs, inspect, compose up/down, etc.) can be run directly via the Bash tool.
 
 ## Directory Structure
 

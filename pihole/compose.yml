@@ -27,7 +27,8 @@ services:
       - NET_ADMIN # Recommended but not required (DHCP needs NET_ADMIN)      
     restart: unless-stopped
     networks:
-      - traefik-net
+      traefik-net:
+        ipv4_address: 172.30.0.53
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.pihole.loadbalancer.server.port=80"

@@ -95,6 +95,18 @@ file_paths = ["compose.yml"]
 ##
 
 [[stack]]
+name = "uptime-kuma"
+tags = ["system"]
+[stack.config]
+server = "Local"
+poll_for_updates = true
+files_on_host = true
+run_directory = "/home/pi/docker-compose-files/uptime-kuma"
+file_paths = ["compose.yml"]
+
+##
+
+[[stack]]
 name = "zigbee2mqtt"
 tags = ["home"]
 [stack.config]

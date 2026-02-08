@@ -1,0 +1,23 @@
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:2
+    container_name: uptime-kuma
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /home/pi/apps/uptime-kuma/data:/app/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
+    networks:
+      - traefik-net
+    dns:
+      # use our own DNS
+      - 172.30.0.53
+
+networks:
+  traefik-net:
+    external: true
