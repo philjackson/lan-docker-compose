@@ -9,6 +9,7 @@ services:
       - TZ=Europe/London
     volumes:
       - /home/pi/apps/uptime-kuma/data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
