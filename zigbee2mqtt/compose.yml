@@ -17,6 +17,8 @@ services:
     hostname: mosquitto
   zigbee2mqtt:
     container_name: zigbee2mqtt
+    depends_on:
+      - mqtt
     restart: unless-stopped
     image: koenkk/zigbee2mqtt
     environment:
