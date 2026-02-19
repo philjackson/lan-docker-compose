@@ -10,7 +10,7 @@
 services:
   postgres:
     # https://github.com/FerretDB/documentdb/pkgs/container/postgres-documentdb
-    image: ghcr.io/ferretdb/postgres-documentdb
+    image: ghcr.io/ferretdb/postgres-documentdb:latest
     container_name: komodo-postgres
     restart: unless-stopped
     networks:
@@ -26,7 +26,7 @@ services:
 
   ferretdb:
     # https://github.com/FerretDB/FerretDB/pkgs/container/ferretdb
-    image: ghcr.io/ferretdb/ferretdb
+    image: ghcr.io/ferretdb/ferretdb:latest
     container_name: komodo-ferretdb
     restart: unless-stopped
     depends_on:

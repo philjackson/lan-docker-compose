@@ -120,7 +120,15 @@ networks:
     external: true
 ```
 
-After creating the compose file, add the service to `komodo-sync.toml` so Komodo picks it up:
+After creating the compose file, add a monitor for the new service in uptime-kuma. The easiest way is via the UI at `http://uptime-kuma.home.lan`, or by inserting directly into the database:
+
+```bash
+docker exec uptime-kuma sqlite3 /app/data/kuma.db \
+  "INSERT INTO monitor (name, type, url, user_id, interval, maxretries, accepted_statuscodes_json, active) \
+   VALUES ('Servicename', 'http', 'http://servicename.home.lan', 1, 60, 0, '[\"200-299\"]', 1);"
+```
+
+Also add the service to `komodo-sync.toml` so Komodo picks it up:
 
 ```toml
 [[stack]]
