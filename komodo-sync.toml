@@ -47,13 +47,13 @@ file_paths = ["compose.yml"]
 ##
 
 [[stack]]
-name = "jellyseerr"
+name = "seerr"
 tags = ["media"]
 [stack.config]
 server = "Local"
 poll_for_updates = true
 files_on_host = true
-run_directory = "/home/pi/docker-compose-files/jellyseerr"
+run_directory = "/home/pi/docker-compose-files/seerr"
 file_paths = ["compose.yml"]
 
 ##

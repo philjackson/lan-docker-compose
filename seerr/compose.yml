@@ -1,7 +1,7 @@
 services:
-  jellyseerr:
+  seerr:
     image: ghcr.io/seerr-team/seerr:latest
-    container_name: jellyseerr
+    container_name: seerr
     init: true
     environment:
       - LOG_LEVEL=info
@@ -9,11 +9,11 @@ services:
     ports:
       - 5055:5055
     volumes:
-      - /home/pi/apps/jellyseerr:/app/config
+      - /home/pi/apps/seerr:/app/config
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.jellyseerr.loadbalancer.server.port=5055"
+      - "traefik.http.services.seerr.loadbalancer.server.port=5055"
     networks:
       - traefik-net
 
