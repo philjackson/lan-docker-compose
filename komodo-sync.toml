@@ -1,3 +1,34 @@
+[[repo]]
+name = "family-film-scores"
+[repo.config]
+server = "Local"
+builder = "Local"
+git_account = "philjackson"
+repo = "philjackson/family-film-scores"
+
+##
+
+[[build]]
+name = "family-film-scores"
+tags = ["media"]
+[build.config]
+builder = "Local"
+linked_repo = "family-film-scores"
+
+##
+
+[[stack]]
+name = "family-film-scores"
+tags = ["media"]
+[stack.config]
+server = "Local"
+poll_for_updates = true
+files_on_host = true
+run_directory = "/home/pi/docker-compose-files/family-film-scores"
+file_paths = ["compose.yml"]
+
+##
+
 [[stack]]
 name = "deezmix"
 tags = ["music", "media"]
