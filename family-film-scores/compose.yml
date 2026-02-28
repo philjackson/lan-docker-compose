@@ -10,12 +10,14 @@ services:
       - NODE_ENV=production
       - JWT_SECRET=${JWT_SECRET}
       - DB_PATH=/app/data/films.db
+      - COOKIE_SECURE=false
     volumes:
       - /home/pi/apps/family-film-score:/app/data
     networks:
       - traefik-net
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.family-film-scores.rule=Host(`ffs.home.lan`)"
       - "traefik.http.services.family-film-scores.loadbalancer.server.port=3000"
 
 networks:
