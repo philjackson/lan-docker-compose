@@ -120,7 +120,7 @@ networks:
     external: true
 ```
 
-After creating the compose file, add a monitor for the new service in uptime-kuma. The easiest way is via the UI at `http://uptime-kuma.home.lan`, or by inserting directly into the database:
+After creating the compose file, add a monitor for the new service in uptime-kuma. The easiest way is via the API (key: `uk2_as-iE25wEEBY0_LN8SozDxXD5UlIHiOWqYlRf2sn`) or the UI at `http://uptime-kuma.home.lan`, or by inserting directly into the database:
 
 ```bash
 docker exec uptime-kuma sqlite3 /app/data/kuma.db \

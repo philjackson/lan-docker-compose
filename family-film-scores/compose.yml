@@ -11,8 +11,13 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - DB_PATH=/app/data/films.db
       - COOKIE_SECURE=false
+      - OMDB_API_KEY=${OMDB_API_KEY}
+      - JELLYFIN_URL=${JELLYFIN_URL}
+      - JELLYFIN_API_KEY=${JELLYFIN_API_KEY}
     volumes:
-      - /home/pi/apps/family-film-score:/app/data
+      - /home/pi/apps/family-film-score/data:/app/data
+      - /home/pi/apps/family-film-score/omdb-cache:/app/data/cache/omdb
+      - /home/pi/apps/family-film-score/poster-cache:/app/data/cache/posters
     networks:
       - traefik-net
     labels:

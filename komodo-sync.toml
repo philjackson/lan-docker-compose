@@ -14,6 +14,33 @@ tags = ["media"]
 [build.config]
 builder = "Local"
 linked_repo = "family-film-scores"
+build_args = """
+VERSION=[[$VERSION]]
+"""
+
+##
+
+[[procedure]]
+name = "family-film-scores"
+tags = ["media"]
+
+[[procedure.config.stage]]
+name = "Pull"
+executions = [
+  { execution.type = "PullRepo", execution.params.repo = "family-film-scores" },
+]
+
+[[procedure.config.stage]]
+name = "Build"
+executions = [
+  { execution.type = "RunBuild", execution.params.build = "family-film-scores" },
+]
+
+[[procedure.config.stage]]
+name = "Deploy"
+executions = [
+  { execution.type = "DeployStack", execution.params.stack = "family-film-scores" },
+]
 
 ##
 
