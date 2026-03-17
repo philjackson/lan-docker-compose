@@ -14,6 +14,7 @@ services:
       - 8388:8388/tcp # Shadowsocks
       - 8388:8388/udp # Shadowsocks
       - 9696:9696     # prowlarr
+      - 8191:8191     # flaresolverr
     volumes:
       - /home/pi/apps/gluton:/gluetun
     environment:
@@ -109,6 +110,18 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    network_mode: "service:gluetun"
+    environment:
+      - LOG_LEVEL=info
+      - TZ=Europe/London
+    restart: unless-stopped
+    depends_on:
+      gluetun:
+        condition: service_healthy
 
 networks:
   traefik-net:
